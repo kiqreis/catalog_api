@@ -9,7 +9,6 @@ namespace WebApplication1.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-// [EnableRateLimiting("fixedWindow")]
 [ApiConventionType(typeof(DefaultApiConventions))]
 public class CategoriesController(IUnitOfWork unitOf, IMapper mapper) : ControllerBase
 {
