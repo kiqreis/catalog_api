@@ -17,9 +17,7 @@ using WebApplication1.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var secretKey = builder.Configuration["JWT:SecretKey"] ?? throw new ArgumentException("Enter a valid secret key");
-// var allowedOrigins = "_allowedOrigins";
 
-// Add services to the container.
 builder.Services.AddControllers(opt => { opt.Filters.Add(typeof(ApiExceptionFilter)); })
   .AddJsonOptions(opt => { opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles; });
 
@@ -33,7 +31,6 @@ builder.Services.AddCors(opt =>
 });
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(c =>
@@ -65,8 +62,6 @@ builder.Services.AddSwaggerGen(c =>
     }
   });
 });
-
-// builder.Services.AddAuthentication("Bearer").AddJwtBearer();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
   .AddEntityFrameworkStores<AppDbContext>()
@@ -107,18 +102,6 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 {
   opt.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection));
 });
-
-// builder.Services.AddRateLimiter(opt =>
-// {
-//   opt.AddFixedWindowLimiter(policyName: "fixedWindow", options =>
-//   {
-//     options.PermitLimit = 1;
-//     options.Window = TimeSpan.FromSeconds(2);
-//     options.QueueLimit = 2;
-//     options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
-//   });
-//   opt.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
-// });
 
 builder.Configuration.GetSection(RateLimitOptions.RateLimit).Bind(myOptions);
 
@@ -163,7 +146,6 @@ var app = builder.Build();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
   app.UseSwagger();
@@ -172,7 +154,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 app.UseRateLimiter();
-// app.UseCors(allowedOrigins);
 app.UseCors();
 app.UseAuthorization();
 app.MapControllers();
